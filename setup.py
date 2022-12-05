@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 from generate_labels import pascal_voc_to_yolo
 import PySimpleGUI as sg
+from tqdm import tqdm
 
 global coordinates, fore_g_image, dir_fg_img, list_
 coordinates = []
@@ -36,11 +37,11 @@ def coordinates_on_click(event, x, y, flags, params, offset=5, object_dim=[40,40
         coordinates.append(coord)
       
 imgs = glob.glob('Dataset/background_images/*.jpg')
-for bg_images in imgs:
+for bg_images in tqdm(imgs):
     base_name = os.path.basename(bg_images)
     bg_images_ = cv2.imread(bg_images)
     H, W, _ = bg_images_.shape
-    print('Base Image Dim =',H,'x',W)
+    # print('Base Image:',base_name,'==> Dim =',H,'x',W)
     dir_fg_img = popup_wind()
     cv2.imshow('image', bg_images_)
     cv2.setMouseCallback('image', coordinates_on_click)
@@ -70,8 +71,10 @@ for bg_images in imgs:
                                     obj_pt[0]+fw, obj_pt[1]+fh,
                                     W, H)
             
+            # print(dir_fg_img.split('/')[-2][0])
+            class_no = dir_fg_img.split('/')[-2][0]
             txt_file = open('Dataset/Dataset_output/'+base_name[:-4]+'.txt', 'a')
-            txt_file.write('0 '+str(bb[0])+' '+str(bb[1])+' '+str(bb[2])+' '+str(bb[3])+'\n')
+            txt_file.write(class_no+' '+str(bb[0])+' '+str(bb[1])+' '+str(bb[2])+' '+str(bb[3])+'\n')
             txt_file.close()
 
         cv2.imwrite('Dataset/Dataset_output/'+base_name,obj_img_cv_bgr)

@@ -3,3 +3,4 @@ os
 opencv-python
 pillow
 PySimpleGUI
+tqdm
