@@ -6,6 +6,9 @@ This tool is used to generate synthetic datasets for the purpose of testing and 
 
 # 2. Installation
 
+## 2.0. Pre-requisites
+Prepare the data and extract Transparent Image Mask from this repository [Transparent Image Extraction using Mask](https://github.com/theshahzaib/Transparent-Image-Extraction-using-Mask.git)
+
 ## 2.1. Requirements
 The tool requires Python 3.7 or higher.
 
