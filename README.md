@@ -17,6 +17,39 @@ The tool requires Python 3.7 or higher.
 pip install requirements.txt
 ```
 
+## 2.3. Folder Hierarchy
+```bash
+├── Dataset
+│
+│   ├── background_images
+│   │   ├── 1.jpg
+│   │   ├── 2.jpg
+│   │   ├── 3.jpg
+│   
+│   ├── input
+│   │   ├── 0-class-0 [folder name starting with class number]
+│   │   │   ├── 1.png
+│   │   │   ├── 2.png
+│   │   │   ├── 3.png
+│   │   ├── 1-class-1
+│   │   │   ├── 1.png
+│   │   │   ├── 2.png
+│   │   │   ├── 3.png
+│   │   ├── 2-class-2
+│   │   │   ├── 1.png
+│   │   │   ├── 2.png
+│   │   │   ├── 3.png
+│   
+│   ├── Dataset_output
+│   │   ├── 1.jpg
+│   │   ├── 1.txt
+│   │   ├── 2.jpg
+│   │   ├── 2.txt
+│   │   ├── 3.jpg
+│   │   ├── 3.txt
+```
+
+
 # 3. Usage
 The tool is designed to be used in a Python environment. 
 
