@@ -5,9 +5,11 @@ from PIL import Image
 from generate_labels import pascal_voc_to_yolo
 import PySimpleGUI as sg
 from tqdm import tqdm
+import datetime as dt
 
 global coordinates, fore_g_image, dir_fg_img, list_
 coordinates = []
+date_time_id = dt.datetime.now().strftime("%d%m%y%H%M")
 
 def popup_wind():
     layout = [[sg.Text('Select the Object Image to be placed')],
@@ -35,7 +37,12 @@ def coordinates_on_click(event, x, y, flags, params, offset=5, object_dim=[40,40
         
         coord = [x,y]
         coordinates.append(coord)
-      
+
+# remove folder if exists
+if os.path.exists('Dataset/Dataset_output'):
+    os.system('rm -r Dataset/Dataset_output')
+os.mkdir('Dataset/Dataset_output')
+
 imgs = glob.glob('Dataset/background_images/*.jpg')
 for bg_images in tqdm(imgs):
     base_name = os.path.basename(bg_images)
@@ -48,7 +55,7 @@ for bg_images in tqdm(imgs):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     
-    txt_file = open('Dataset/Dataset_output/'+base_name[:-4]+'.txt', 'w')
+    txt_file = open('Dataset/Dataset_output/'+date_time_id+'_syn_'+base_name[:-4]+'.txt', 'w')
     for jj in list_:
         fg_base_name = os.path.basename(jj)
         fg_img = Image.open(jj, 'r').convert("RGBA")
@@ -73,10 +80,12 @@ for bg_images in tqdm(imgs):
             
             # print(dir_fg_img.split('/')[-2][0])
             class_no = dir_fg_img.split('/')[-2][0]
-            txt_file = open('Dataset/Dataset_output/'+base_name[:-4]+'.txt', 'a')
+
+            
+            txt_file = open('Dataset/Dataset_output/'+date_time_id+'_syn_'+base_name[:-4]+'.txt', 'a')
             txt_file.write(class_no+' '+str(bb[0])+' '+str(bb[1])+' '+str(bb[2])+' '+str(bb[3])+'\n')
             txt_file.close()
 
-        cv2.imwrite('Dataset/Dataset_output/'+base_name,obj_img_cv_bgr)
+        cv2.imwrite('Dataset/Dataset_output/'+date_time_id+'_syn_'+base_name,obj_img_cv_bgr)
         coordinates.clear()
         list_.clear()
