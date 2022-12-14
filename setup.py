@@ -7,14 +7,21 @@ import PySimpleGUI as sg
 from tqdm import tqdm
 import datetime as dt
 
-global coordinates, fore_g_image, dir_fg_img, list_
+global coordinates, fore_g_image, dir_fg_img, list_, dir_fg_img_list, list_bg_img, obj_pt, fh, fw
 coordinates = []
 date_time_id = dt.datetime.now().strftime("%d%m%y%H%M")
 
 def popup_wind():
     layout = [[sg.Text('Select the Object Image to be placed')],
                     # [sg.Combo(['1','2' ], size=(20, 1), key='object', default_value='0-non')],
-                    [sg.InputText(key='inputxt'), sg.FileBrowse()],
+                    [sg.Text("Object 0")],
+                    [sg.InputText(key='inputxt0'), sg.FileBrowse()],
+                    # [sg.Text("Object 1")],
+                    # [sg.InputText(key='inputxt1'), sg.FileBrowse()],
+                    # [sg.Text("Object 2")],
+                    # [sg.InputText(key='inputxt2'), sg.FileBrowse()],
+                    # [sg.Text("Object 3")],
+                    # [sg.InputText(key='inputxt3'), sg.FileBrowse()],
                     [sg.Button('Ok'), sg.Button('Cancel')]
                     ]
     # Set dimensions of the window
@@ -22,7 +29,9 @@ def popup_wind():
     event, values = window.read()
     window.close()
     # print(values)
-    dir_ = values['inputxt']
+    # dir_ = [values['inputxt0'], values['inputxt1'], values['inputxt2'], values['inputxt3']]
+    dir_ = values['inputxt0']
+    # print(dir_)
     return dir_
 
 list_ = []
@@ -34,8 +43,11 @@ def coordinates_on_click(event, x, y, flags, params, offset=5, object_dim=[40,40
         cv2.putText(bg_images_, str('.'), (x-5,y), font, 1, (255, 255, 0), 6)
         cv2.imshow('image', bg_images_)
         list_.append(dir_fg_img)
+        # list_.append(dir_fg_img_list)
         
         coord = [x,y]
+        # for i in range(0,4):
+        #     coordinates.append(coord)
         coordinates.append(coord)
 
     if event == cv2.EVENT_MBUTTONDOWN:
@@ -63,15 +75,17 @@ for bg_images in tqdm(imgs):
     
 
     dir_fg_img = popup_wind()
+    # dir_fg_img_list = popup_wind()
     cv2.imshow('image', bg_images_)
     cv2.setMouseCallback('image', coordinates_on_click)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    
+
+
     txt_file = open('Dataset/Dataset_output/'+date_time_id+'_syn_'+base_name[:-4]+'.txt', 'w')
-    for jj in list_:
-        fg_base_name = os.path.basename(jj)
-        fg_img = Image.open(jj, 'r').convert("RGBA")
+    for objj in list_:
+        fg_base_name = os.path.basename(objj)
+        fg_img = Image.open(objj, 'r').convert("RGBA")
         bg_img = Image.open(bg_images, 'r').convert("RGBA")
             
         obj_img = Image.new('RGBA', (W, H), (0, 0, 0, 0))
@@ -92,7 +106,8 @@ for bg_images in tqdm(imgs):
                                     W, H)
             
             # print(dir_fg_img.split('/')[-2][0])
-            class_no = dir_fg_img.split('/')[-2][0]
+            # class_no = dir_fg_img.split('/')[-2][0]
+            class_no = objj.split('/')[-2][0]
 
             
             txt_file = open('Dataset/Dataset_output/'+date_time_id+'_syn_'+base_name[:-4]+'.txt', 'a')
