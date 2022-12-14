@@ -28,7 +28,7 @@ def popup_wind():
 list_ = []
 def coordinates_on_click(event, x, y, flags, params, offset=5, object_dim=[40,40]):
 
-    if event == cv2.EVENT_LBUTTONDOWN:
+    if event == cv2.EVENT_LBUTTONUP:
         font = cv2.FONT_HERSHEY_SIMPLEX
 
         cv2.putText(bg_images_, str('.'), (x-5,y), font, 1, (255, 255, 0), 6)
@@ -38,10 +38,18 @@ def coordinates_on_click(event, x, y, flags, params, offset=5, object_dim=[40,40
         coord = [x,y]
         coordinates.append(coord)
 
+    if event == cv2.EVENT_MBUTTONDOWN:
+        cv2.destroyWindow('image')
+
 # remove folder if exists
 if os.path.exists('Dataset/Dataset_output'):
     os.system('rm -r Dataset/Dataset_output')
 os.mkdir('Dataset/Dataset_output')
+
+def destroy_window(event, x, y, flags, params):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        cv2.destroyWindow('image')
+        
 
 imgs = glob.glob('Dataset/background_images/*.jpg')
 for bg_images in tqdm(imgs):
@@ -49,6 +57,11 @@ for bg_images in tqdm(imgs):
     bg_images_ = cv2.imread(bg_images)
     H, W, _ = bg_images_.shape
     # print('Base Image:',base_name,'==> Dim =',H,'x',W)
+    cv2.imshow('image', bg_images_)
+    cv2.setMouseCallback('image', destroy_window)
+    cv2.waitKey(0)
+    
+
     dir_fg_img = popup_wind()
     cv2.imshow('image', bg_images_)
     cv2.setMouseCallback('image', coordinates_on_click)
