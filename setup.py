@@ -31,7 +31,7 @@ def coordinates_on_click(event, x, y, flags, params, offset=5, object_dim=[40,40
     if event == cv2.EVENT_LBUTTONDOWN:
         font = cv2.FONT_HERSHEY_SIMPLEX
 
-        cv2.putText(bg_images_, str('.'), (x,y), font, 1, (255, 255, 0), 8)
+        cv2.putText(bg_images_, str('.'), (x-5,y), font, 1, (255, 255, 0), 6)
         cv2.imshow('image', bg_images_)
         list_.append(dir_fg_img)
         
@@ -70,12 +70,12 @@ for bg_images in tqdm(imgs):
             fh, fw, f_ = fg_image_size.shape
             img_ = Image.open(img, 'r').convert("RGBA") 
             
-            obj_img.paste(img_, (obj_pt[0], obj_pt[1]), mask=img_)
+            obj_img.paste(img_, (obj_pt[0] - (fw//2), obj_pt[1] - (fh//2)), mask=img_)
             obj_img_cv = np.array(obj_img)
             obj_img_cv_bgr = cv2.cvtColor(obj_img_cv, cv2.COLOR_RGB2BGR)
             
-            bb = pascal_voc_to_yolo(obj_pt[0], obj_pt[1],
-                                    obj_pt[0]+fw, obj_pt[1]+fh,
+            bb = pascal_voc_to_yolo(obj_pt[0] - (fw//2) , obj_pt[1] - (fh//2),
+                                    obj_pt[0]+ (fw//2), obj_pt[1]+ (fh//2),
                                     W, H)
             
             # print(dir_fg_img.split('/')[-2][0])
