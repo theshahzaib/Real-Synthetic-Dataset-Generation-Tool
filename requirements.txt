@@ -1,5 +1,3 @@
-glob
-os
 opencv-python
 pillow
 PySimpleGUI
