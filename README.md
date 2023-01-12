@@ -7,7 +7,7 @@ This tool is used to generate synthetic datasets for the purpose of testing and 
 # 2. Installation
 
 ## 2.0. Pre-requisites
-Prepare the data and extract Transparent Image Mask from this repository [Transparent Image Extraction using Mask](https://github.com/theshahzaib/Transparent-Image-Extraction-using-Mask.git)
+Prepare the data and extract Transparent Image Mask from this repository [Transparent Image Extraction using Mask](https://github.com/theshahzaib/Transparent-Image-Extraction-using-Mask.git) `(Pipeline-1)`
 
 ## 2.1. Requirements
 The tool requires Python 3.7 or higher.
@@ -73,11 +73,15 @@ python setup.py
 
 ![](./snips/data_output.jpg)
 
-## 3.5 Labelled Text files
+## 3.5 Auto Generated Label files in YOLO format
 
 ![](./snips/labels.jpg)
 
-# 4. License
+# 4. Workflow of the tool
+Here is the self-explanatory workflow of the tool.
+![](./snips/workflow.png)
+
+# 5. License
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
 

@@ -13,15 +13,7 @@ date_time_id = dt.datetime.now().strftime("%d%m%y%H%M")
 
 def popup_wind():
     layout = [[sg.Text('Select the Object Image to be placed')],
-                    # [sg.Combo(['1','2' ], size=(20, 1), key='object', default_value='0-non')],
-                    [sg.Text("Object 0")],
                     [sg.InputText(key='inputxt0'), sg.FileBrowse()],
-                    # [sg.Text("Object 1")],
-                    # [sg.InputText(key='inputxt1'), sg.FileBrowse()],
-                    # [sg.Text("Object 2")],
-                    # [sg.InputText(key='inputxt2'), sg.FileBrowse()],
-                    # [sg.Text("Object 3")],
-                    # [sg.InputText(key='inputxt3'), sg.FileBrowse()],
                     [sg.Button('Ok'), sg.Button('Cancel')]
                     ]
     # Set dimensions of the window
@@ -54,12 +46,16 @@ def coordinates_on_click(event, x, y, flags, params, offset=5, object_dim=[40,40
         cv2.destroyWindow('image')
 
 # remove folder if exists
-if os.path.exists('Dataset/Dataset_output'):
-    os.system('rm -r Dataset/Dataset_output')
-os.mkdir('Dataset/Dataset_output')
+# if os.path.exists('Dataset/Dataset_output'):
+#     os.system('rm -r Dataset/Dataset_output')
+# os.mkdir('Dataset/Dataset_output')
 
-def destroy_window(event, x, y, flags, params):
+def destroy_window_button_L(event, x, y, flags, params):
     if event == cv2.EVENT_LBUTTONDOWN:
+        cv2.destroyWindow('image')
+
+def destroy_window_button_M(event, x, y, flags, params):
+    if event == cv2.EVENT_MBUTTONDOWN:
         cv2.destroyWindow('image')
         
 
@@ -70,7 +66,7 @@ for bg_images in tqdm(imgs):
     H, W, _ = bg_images_.shape
     # print('Base Image:',base_name,'==> Dim =',H,'x',W)
     cv2.imshow('image', bg_images_)
-    cv2.setMouseCallback('image', destroy_window)
+    cv2.setMouseCallback('image', destroy_window_button_L)
     cv2.waitKey(0)
     
 
