@@ -4,6 +4,10 @@
 # 1. Introduction
 This tool is used to generate synthetic datasets for the purpose of testing and benchmarking machine learning algorithms. The tool is written in Python and uses the [OpenCV](https://opencv.org/) library for data manipulation and [NumPy](https://numpy.org/) for numerical operations. The tool is designed to be used in a Python environment.
 
+# 1.1. Workflow of the tool
+Here is the self-explanatory workflow of the tool.
+![](./snips/workflow.png)
+
 # 2. Installation
 
 ## 2.0. Pre-requisites
@@ -77,11 +81,8 @@ python setup.py
 
 ![](./snips/labels.jpg)
 
-# 4. Workflow of the tool
-Here is the self-explanatory workflow of the tool.
-![](./snips/workflow.png)
 
-# 5. License
+# 4. License
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
 
